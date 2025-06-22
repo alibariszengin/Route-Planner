@@ -3,6 +3,7 @@ package com.bariszengin.route_planner.location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     Optional<Location> findByLocationCode(String locationCode);
 
     boolean existsByLocationCode(String locationCode);
+
+    long countByIdIn(Collection<Long> ids);
 
     List<Location> findByCity(String city);
 

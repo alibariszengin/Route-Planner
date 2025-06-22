@@ -62,7 +62,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private boolean areLocationsExists(List<Long> ids) {
-        return !this.locationRepository.findAllById(ids).isEmpty();
+        return this.locationRepository.countByIdIn(ids) == ids.size();
     }
 
     private Location getLocationEntity(Long id) {
