@@ -35,13 +35,19 @@ public class Transportation {
     private TransportationType type;
 
     @NotNull(message = "Origin location is required")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "origin_location_id", nullable = false)
-    private Location originLocation;
+    @Column(name = "origin_location_id")
+    private Long originLocationId;
 
     @NotNull(message = "Destination location is required")
+    @Column(name = "destination_location_id")
+    private Long destinationLocationId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_location_id", nullable = false)
+    @JoinColumn(name = "origin_location_id", insertable = false, updatable = false)
+    private Location originLocation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destination_location_id", insertable = false, updatable = false)
     private Location destinationLocation;
 
     @CreationTimestamp
