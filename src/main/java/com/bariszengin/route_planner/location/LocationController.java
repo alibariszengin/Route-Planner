@@ -43,10 +43,10 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Long> deleteLocation(@PathVariable Long id) {
+    public ResponseEntity<String> deleteLocation(@PathVariable Long id) {
         log.info("DELETE /api/v1/locations/ - Deleting location by id");
         locationService.deleteLocation(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Deleted Location with id: " + id);
     }
 
     @GetMapping

@@ -16,4 +16,6 @@ public interface LocationService {
     List<LocationResponseDTO> getLocations();
 
     LocationResponseDTO getLocation(Long id);
+
+    void validateLocations(List<Long> ids);
 }
