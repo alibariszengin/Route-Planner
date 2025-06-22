@@ -35,15 +35,15 @@ public class LocationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<LocationResponseDTO> getLocation(Long id) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<LocationResponseDTO> getLocation(@PathVariable Long id) {
         log.info("GET /api/v1/locations/ - Getting location by id");
         LocationResponseDTO location = locationService.getLocation(id);
         return ResponseEntity.ok(location);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Long> deleteLocation(Long id) {
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Long> deleteLocation(@PathVariable Long id) {
         log.info("DELETE /api/v1/locations/ - Deleting location by id");
         locationService.deleteLocation(id);
         return ResponseEntity.noContent().build();

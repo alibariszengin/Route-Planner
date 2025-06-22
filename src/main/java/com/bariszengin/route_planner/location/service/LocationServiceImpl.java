@@ -40,12 +40,12 @@ public class LocationServiceImpl implements LocationService {
 
 
     public LocationResponseDTO getLocation(Long id) {
-        return null;
+        Location location = this.locationRepository.findById(id).orElseGet(null);
+        return this.locationMapper.toResponseDto(location);
     }
 
     public List<LocationResponseDTO> getLocations() {
         List<Location> locations = this.locationRepository.findAll();
-        log.info(locations.toString());
         return this.locationMapper.toResponseDtoList(locations);
     }
 
