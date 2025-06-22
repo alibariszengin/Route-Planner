@@ -9,18 +9,13 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    // Location code ile arama
     Optional<Location> findByLocationCode(String locationCode);
 
-    // Location code varlık kontrolü
     boolean existsByLocationCode(String locationCode);
 
-    // Şehir bazında arama
     List<Location> findByCity(String city);
 
-    // Ülke bazında arama
     List<Location> findByCountry(String country);
 
-    // Şehir ve ülke kombinasyonu ile arama
     List<Location> findByCityAndCountry(String city, String country);
 }

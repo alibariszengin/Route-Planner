@@ -2,6 +2,8 @@ package com.bariszengin.route_planner.location;
 
 import com.bariszengin.route_planner.location.dto.LocationCreateDTO;
 import com.bariszengin.route_planner.location.dto.LocationResponseDTO;
+import com.bariszengin.route_planner.location.dto.LocationUpdateDTO;
+import com.bariszengin.route_planner.location.service.LocationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,28 @@ public class LocationController {
     public ResponseEntity<LocationResponseDTO> createLocation(@Valid @RequestBody LocationCreateDTO createDTO) {
         log.info("POST /api/v1/locations - Creating location: {}", createDTO.getName());
         LocationResponseDTO response = locationService.createLocation(createDTO);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<LocationResponseDTO> updateLocation(@Valid @RequestBody LocationUpdateDTO updateDTO) {
+        log.info("PUT /api/v1/locations - Updating location: {}", updateDTO.getName());
+        LocationResponseDTO response = locationService.updateLocation(updateDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<LocationResponseDTO> getLocation(Long id) {
+        log.info("GET /api/v1/locations/ - Getting location by id");
+        LocationResponseDTO location = locationService.getLocation(id);
+        return ResponseEntity.ok(location);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Long> deleteLocation(Long id) {
+        log.info("DELETE /api/v1/locations/ - Deleting location by id");
+        locationService.deleteLocation(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
