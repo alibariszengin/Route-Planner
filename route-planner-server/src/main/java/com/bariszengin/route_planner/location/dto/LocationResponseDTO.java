@@ -10,7 +10,7 @@ public class LocationResponseDTO {
     private String name;
     private String city;
     private String country;
-    private String locationCode;
+    private String code;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

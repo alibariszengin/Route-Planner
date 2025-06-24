@@ -40,8 +40,8 @@ public class Location {
 
     @NotNull(message = "Location code required")
     @Size(max = 10, message = "Location code must be less than 10 characters")
-    @Column(name = "location_code", length = 10, unique = true)
-    private String locationCode;
+    @Column(name = "code", length = 10, unique = true)
+    private String code;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -51,10 +51,10 @@ public class Location {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Location(String name, String city, String country, String locationCode) {
+    public Location(String name, String city, String country, String code) {
         this.name = name;
         this.city = city;
         this.country = country;
-        this.locationCode = locationCode;
+        this.code = code;
     }
 }

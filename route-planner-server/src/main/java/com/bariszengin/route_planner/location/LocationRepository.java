@@ -10,15 +10,6 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    Optional<Location> findByLocationCode(String locationCode);
-
-    boolean existsByLocationCode(String locationCode);
-
     long countByIdIn(Collection<Long> ids);
 
-    List<Location> findByCity(String city);
-
-    List<Location> findByCountry(String country);
-
-    List<Location> findByCityAndCountry(String city, String country);
 }

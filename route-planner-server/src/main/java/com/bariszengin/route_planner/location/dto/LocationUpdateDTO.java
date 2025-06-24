@@ -22,5 +22,5 @@ public class LocationUpdateDTO {
     private String country;
 
     @Size(max = 10, message = "Location code must be less than 10 characters")
-    private String locationCode;
+    private String code;
 }
