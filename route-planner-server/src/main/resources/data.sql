@@ -1,4 +1,4 @@
-INSERT INTO location (name, city, country, location_code) VALUES
+INSERT INTO location (name, city, country, code) VALUES
 ('Taksim Square', 'Istanbul', 'Turkey', 'IST001'),
 ('Grand Bazaar', 'Istanbul', 'Turkey', 'IST002'),
 ('Galata Tower', 'Istanbul', 'Turkey', 'IST003'),
