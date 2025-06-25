@@ -1,89 +1,57 @@
 import React, {useEffect, useState} from 'react';
-import BasePage from "../components/BasePage.jsx";
+import BasePage from "../components/BasePage/BasePage.jsx";
+import {useApiOperations} from "../hooks/useApiOperations.jsx";
+import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner.jsx";
+import {changeMetadataInformation, getMetadataByPageName} from "./pageMetadatas.jsx";
+import {useDebouncedLoading} from "../hooks/useDebounceLoading.jsx";
 
 const SERVER_URL = 'http://localhost:8080'; // Kendi server URL'inizi buraya yazın
 
 const TransportationsPage = () => {
     const [locations, setLocations] = useState([]);
-
+    const [metadata, setMetadata] = useState(getMetadataByPageName("Transportations"));
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const locationsMetadata = {
+        endpoint: 'locations',
+        pageName: 'Locations'
+    };
+    const { fetchData: fetchLocations, loading: locationsLoading, error: locationsError } = useApiOperations(locationsMetadata);
+    const showLoading = useDebouncedLoading(loading, 500);
 
-    // Component mount olduğunda data verilerini API'den çek
     useEffect(() => {
-        fetchData();
+        const loadLocations = async () => {
+            try {
+                const data = await fetchLocations();
+                console.log(data);
+                setLocations(data);
+                changeMetadataInformation("Transportations", "fields.originLocationId", "optionsSource", data);
+                changeMetadataInformation("Transportations", "fields.destinationLocationId", "optionsSource", data);
+            } catch (err) {
+                // Error handling zaten hook içinde yapılıyor
+                console.error('Failed to load locations:', err);
+            }
+        };
+
+
+        loadLocations();
     }, []);
 
-    const fetchData = async () => {
-        setLoading(true);
-        setError(null);
+    if (showLoading) {
+        return <LoadingSpinner pageName="Transportations"/>
+    }
 
-        try {
-            const response = await fetch(`${SERVER_URL}/api/v1/locations`);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log(data);
-            setLocations(data);
-        } catch (err) {
-            console.error('Error while loading Locations:', err);
-            setError('Error while loading Locations:' + err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-    if (loading) {
+    if (locationsError) {
         return (
             <div className="page-section">
-                <div className="loading">Transportations Loading...</div>
+                <div className="error">Error: {locationsError}</div>
             </div>
         );
     }
     return (
-        <BasePage metadata={{
-            endpoint: 'transportations',
-            pageName: 'Transportations',
-            name: 'Transportation',
-            updateAfterCreateEdit:true,
-            fields: {
-                type: {
-                    inputType: "dropdown",
-                    optionsSource:[{
-                            type: "BUS"
-                        }, {type :"FLIGHT"}, { type: "UBER"}, {type:"TAXI"}],
-                    valueKey: "type",
-                    labelKey:"type",
-                    label: "Transportation Type",
-                    placeholder: "Example: BUS, FLIGHT, TRAIN",
-                    required: true
-                },
-                originLocationId: {
-                    inputType: "dropdown",
-                    field: "originLocation.name",
-                    pkField:"originLocation.id",
-                    optionsSource:locations,
-                    valueKey: "id",
-                    labelKey: "name",
-                    label: "Origin Location Name",
-                    placeholder: "Example: Istanbul Airport",
-                    required: true
-                },
-                destinationLocationId: {
-                    inputType: "dropdown",
-                    optionsSource:locations,
-                    valueKey: "id",
-                    labelKey: "name",
-                    field: "destinationLocation.name",
-                    pkField:"destinationLocation.id",
-                    label: "Destination Location Name",
-                    placeholder: "Example: Ankara Station",
-                    required: true
-                }
-            }
-        }}/>
+        <BasePage metadata={
+            metadata
+        }/>
     )
 };
 

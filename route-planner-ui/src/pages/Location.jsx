@@ -1,28 +1,13 @@
 import React from 'react';
-import BasePage from "../components/BasePage.jsx";
+import BasePage from "../components/BasePage/BasePage.jsx";
+import {getMetadataByPageName} from "./pageMetadatas.jsx";
 
 
 
 const LocationsPage = () => {
-
+    const metadata = getMetadataByPageName("Locations");
     return (
-        <BasePage metadata={{
-            endpoint: 'locations',
-            pageName: 'Locations',
-            name: 'Location',
-            fields: {
-                name : {
-                    label: "Location Name",
-                    placeholder: "Example: Istanbul Airport",
-                    required: true
-                },
-                code : {
-                    label: "Location Code",
-                    placeholder: "Example: IST",
-                    required: true
-                }
-            }
-        }}/>
+        <BasePage metadata={metadata}/>
     )
 };
 
