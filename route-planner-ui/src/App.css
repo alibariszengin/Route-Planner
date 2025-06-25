@@ -4,3 +4,8 @@
   /*padding: 2rem;*/
   text-align: center;
 }
+.page-content {
+  min-height: 100vh;
+  background-color: white;
+}
+
