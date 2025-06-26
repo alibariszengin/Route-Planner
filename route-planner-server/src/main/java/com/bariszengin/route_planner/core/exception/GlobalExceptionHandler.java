@@ -1,5 +1,6 @@
 package com.bariszengin.route_planner.core.exception;
 
+import com.bariszengin.route_planner.core.exception.custom.ValidationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,25 +28,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(
+            ValidationException ex, WebRequest request) {
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ErrorResponse> handleValidationException(
-//            MethodArgumentNotValidException ex, WebRequest request) {
-//
-//        String message = ex.getBindingResult().getFieldErrors().stream()
-//                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-//                .collect(Collectors.joining(", "));
-//
-//        ErrorResponse error = ErrorResponse.builder()
-//                .timestamp(LocalDateTime.now())
-//                .status(HttpStatus.BAD_REQUEST.value())
-//                .error("VALIDATION_ERROR")
-//                .message(message)
-//                .path(request.getDescription(false).replace("uri=", ""))
-//                .build();
-//
-//        return ResponseEntity.badRequest().body(error);
-//    }
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("VALIDATION_ERROR")
+                .message(ex.getReason())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(

@@ -16,6 +16,8 @@ public interface TransportationMapper {
 
     TransportationResponseDTO toResponseDto(Transportation entity);
 
+    void updateTransportationFromDto(TransportationCreateDTO dto, @MappingTarget Transportation entity);
+
     void updateTransportationFromDto(TransportationUpdateDTO dto, @MappingTarget Transportation entity);
 
     List<TransportationResponseDTO> toResponseDtoList(List<Transportation> entities);

@@ -1,6 +1,8 @@
 package com.bariszengin.route_planner.transportation;
 
 
+import com.bariszengin.route_planner.core.dto.ResponseDTO;
+import com.bariszengin.route_planner.transportation.dto.RouteResponseDTO;
 import com.bariszengin.route_planner.transportation.dto.TransportationCreateDTO;
 import com.bariszengin.route_planner.transportation.dto.TransportationResponseDTO;
 import com.bariszengin.route_planner.transportation.dto.TransportationUpdateDTO;
@@ -24,17 +26,21 @@ public class TransportationController {
 
     @PostMapping
     public ResponseEntity<TransportationResponseDTO> createTransportation(
-            @Valid @RequestBody TransportationCreateDTO createDTO) {
+            @Valid @RequestBody TransportationCreateDTO createDTO,
+            @RequestParam(name = "populateAll", required = false, defaultValue = "false") boolean populateAll
+    ) {
         log.info("POST /api/v1/transportations - Creating transportation");
-        TransportationResponseDTO response = transportationService.createTransportation(createDTO);
+        TransportationResponseDTO response = transportationService.createTransportation(createDTO, populateAll);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping
     public ResponseEntity<TransportationResponseDTO> updateTransportation(
-            @Valid @RequestBody TransportationUpdateDTO updateDTO) {
+            @Valid @RequestBody TransportationUpdateDTO updateDTO,
+            @RequestParam(name = "populateAll", required = false, defaultValue = "false") boolean populateAll
+    ) {
         log.info("PUT /api/v1/transportations - Updating transportation id={}", updateDTO.getId());
-        TransportationResponseDTO response = transportationService.updateTransportation(updateDTO);
+        TransportationResponseDTO response = transportationService.updateTransportation(updateDTO, populateAll);
         return ResponseEntity.ok(response);
     }
 
@@ -46,16 +52,26 @@ public class TransportationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTransportation(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO> deleteTransportation(@PathVariable Long id) {
         log.info("DELETE /api/v1/transportations/{} - Deleting transportation by id", id);
         transportationService.deleteTransportation(id);
-        return ResponseEntity.ok("Deleted Transportation with id: " + id);
+        ResponseDTO responseDTO = new ResponseDTO("Deleted Transportation with id: " + id);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping
     public ResponseEntity<List<TransportationResponseDTO>> getTransportations() {
         log.info("GET /api/v1/transportations - Fetching all transportations");
         List<TransportationResponseDTO> response = transportationService.getTransportations();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/generateRoute")
+    public ResponseEntity<List<RouteResponseDTO>> getRoutes(
+            @RequestParam(name = "originLocation") Long originLocation,
+            @RequestParam(name = "destinationLocation") Long destinationLocation) {
+        log.info("GET /api/v1/transportations/generateRoute - Generating routes");
+        List<RouteResponseDTO> response = transportationService.getRoutes(originLocation, destinationLocation);
         return ResponseEntity.ok(response);
     }
 }

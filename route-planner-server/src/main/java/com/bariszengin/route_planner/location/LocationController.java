@@ -1,5 +1,6 @@
 package com.bariszengin.route_planner.location;
 
+import com.bariszengin.route_planner.core.dto.ResponseDTO;
 import com.bariszengin.route_planner.location.dto.LocationCreateDTO;
 import com.bariszengin.route_planner.location.dto.LocationResponseDTO;
 import com.bariszengin.route_planner.location.dto.LocationUpdateDTO;
@@ -43,10 +44,11 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteLocation(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO> deleteLocation(@PathVariable Long id) {
         log.info("DELETE /api/v1/locations/ - Deleting location by id");
         locationService.deleteLocation(id);
-        return ResponseEntity.ok("Deleted Location with id: " + id);
+        ResponseDTO responseDTO = new ResponseDTO("Deleted Location with id: " + id);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package com.bariszengin.route_planner.location;
 
+import com.bariszengin.route_planner.transportation.Transportation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,13 +13,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "location")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"originTransportations", "destinationTransportations"})
 public class Location {
 
     @Id
@@ -50,6 +52,12 @@ public class Location {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "originLocation", cascade = CascadeType.REMOVE)
+    private List<Transportation> originTransportations;
+
+    @OneToMany(mappedBy = "destinationLocation", cascade = CascadeType.REMOVE)
+    private List<Transportation> destinationTransportations;
 
     public Location(String name, String city, String country, String code) {
         this.name = name;
