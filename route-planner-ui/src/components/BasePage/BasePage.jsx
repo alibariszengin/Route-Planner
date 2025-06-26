@@ -48,7 +48,7 @@ const BasePage = ({ metadata }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setError(false);
         if (!validateForm()) {
             return;
         }

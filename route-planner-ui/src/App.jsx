@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import './App.css'
 import LocationsPage from "./pages/Location.jsx";
 import TransportationsPage from "./pages/Transportations.jsx";
 import Sidebar from "./components/SideBar/SideBar.jsx";
 import {Navigate, Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import RoutesPage from "./pages/Routes.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
     return (
         <Router>
@@ -17,7 +16,7 @@ function App() {
                         <Route path="/" element={<Navigate to="/locations" />} />
                         <Route path="/locations" element={<LocationsPage />} />
                         <Route path="/transportations" element={<TransportationsPage />} />
-                        {/*<Route path="/routes" element={<RoutesPage />} />*/}
+                        <Route path="/routes" element={<RoutesPage />} />
                     </Routes>
                 </div>
             </div>

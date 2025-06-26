@@ -11,9 +11,11 @@ export const useApiOperations = (metadata) => {
         setError(null);
 
         try {
-            const response = await fetch(`${BASE_URL}/${metadata.endpoint}`);
+            const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
 
-            checkResponse(response);
+            const response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`);
+
+            await checkResponse(response);
 
             return  await response.json();
         } catch (err) {
@@ -31,19 +33,11 @@ export const useApiOperations = (metadata) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newElement)
         };
-        const requestParam = metadata.updateAfterCreateEdit ? `?${metadata.updateAfterCreateEdit}` : '';
+        const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
         let response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
 
-        checkResponse(response);
-
+        await checkResponse(response);
         let newCreated = await response.json();
-
-        if (false) {
-            response = await fetch(`${BASE_URL}/${metadata.endpoint}/${newCreated.id}`);
-
-            checkResponse(response);
-            newCreated = await response.json();
-        }
 
         return { ...newCreated, ...newElement };
     };
@@ -54,20 +48,11 @@ export const useApiOperations = (metadata) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(elementToUpdate)
         };
-        const requestParam = metadata.updateAfterCreateEdit ? `?${metadata.updateAfterCreateEdit}` : '';
+        const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
         let response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
 
-        checkResponse(response);
-
+        await checkResponse(response);
         let updatedElement = await response.json();
-
-        if (false) {
-            response = await fetch(`${BASE_URL}/${metadata.endpoint}/${updatedElement.id}`);
-
-            checkResponse(response);
-
-            updatedElement = await response.json();
-        }
 
         return updatedElement;
     };
@@ -80,14 +65,15 @@ export const useApiOperations = (metadata) => {
 
         const response = await fetch(`${BASE_URL}/${metadata.endpoint}/${elementIdToDelete}`, requestOptions);
 
-        checkResponse(response);
+        await checkResponse(response);
 
         return await response.json();
     }
 
-    const checkResponse = (response) => {
+    const checkResponse = async (response) => {
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const resp = await response.json();
+            throw new Error(`HTTP error! ${resp.message}. Status: ${resp.status}`);
         }
     };
     return {
