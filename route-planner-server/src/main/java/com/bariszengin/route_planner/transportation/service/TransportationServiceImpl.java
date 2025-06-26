@@ -45,7 +45,7 @@ public class TransportationServiceImpl implements TransportationService {
 
     @Override
     public TransportationResponseDTO updateTransportation(TransportationUpdateDTO dto, boolean populateAll) {
-        Transportation transportation = getTransportationEntity(dto.getId());
+        Transportation transportation = getTransportationEntityPopulated(dto.getId());
 
         validateLocations(dto.getDestinationLocationId(),  dto.getOriginLocationId());
 
@@ -54,7 +54,6 @@ public class TransportationServiceImpl implements TransportationService {
         transportationRepository.save(transportation);
         if (populateAll) {
             transportation = getTransportationEntityPopulated(transportation.getId());
-            log.info(String.valueOf(transportation));
         }
         return transportationMapper.toResponseDto(transportation);
     }
@@ -67,7 +66,7 @@ public class TransportationServiceImpl implements TransportationService {
 
     @Override
     public TransportationResponseDTO getTransportation(Long id) {
-        Transportation transportation = getTransportationEntity(id);
+        Transportation transportation = getTransportationEntityPopulated(id);
         return transportationMapper.toResponseDto(transportation);
     }
 
