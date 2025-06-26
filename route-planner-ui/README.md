@@ -1,3 +1,7 @@
+# Postman
+https://warehouse-system-api.postman.co/workspace/Route-Planner~e5fe8401-4550-42d7-851c-b8b24eb5f7ec/collection/14569576-368ea6aa-cd14-4aa2-a0f8-2a15800365e7?action=share&creator=14569576
+# Swagger
+http://localhost:8080/swagger-ui/index.html
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

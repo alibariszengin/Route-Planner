@@ -7,4 +7,5 @@ INSERT INTO location (name, city, country, code) VALUES
 INSERT INTO transportation (origin_location_id, destination_location_id, type) VALUES
 (1, 2, 'BUS'),
 (3, 4, 'SUBWAY'),
-(1, 3, 'UBER');
+(1, 3, 'UBER'),
+(2, 3, 'FLIGHT');
