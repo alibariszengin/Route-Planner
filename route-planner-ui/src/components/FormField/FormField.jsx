@@ -20,7 +20,21 @@ const FormField = ({ fieldKey, fieldConfig, value, onChange }) => {
             </div>
         );
     }
-
+    if (fieldConfig.inputType === "date") {
+        return (
+            <div className="flex items-center gap-2">
+                <label htmlFor="date" className="text-sm font-medium text-gray-700">
+                    Select a date:
+                </label>
+                <input
+                    type="date"
+                    id="date"
+                    onChange={(e) => onChange(fieldKey, e.target.value)}
+                    className="border border-gray-300 rounded px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+        )
+    }
     return (
         <div>
             <label>{fieldConfig.label}</label>

@@ -26,6 +26,9 @@ const metadataOfPages = {
                 label: "Destination Location Name",
                 placeholder: "Example: Ankara Station",
                 required: true
+            },
+            routeDate: {
+                inputType: "date",
             }
         }
     },
