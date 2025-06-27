@@ -15,7 +15,7 @@ VALUES ('Taksim Square', 'Istanbul', 'Turkey', 'IST001'),
        ('Galata Tower', 'Istanbul', 'Turkey', 'IST003'),
        ('Blue Mosque', 'Istanbul', 'Turkey', 'IST004');
 -- İstanbul içi örnekleri
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (11, 12, 'BUS', '1,2,3,4,5'),
     (13, 14, 'SUBWAY', '1,2,3,4,5,6'),
@@ -23,37 +23,37 @@ VALUES
     (12, 13, 'FLIGHT', '5'); -- sadece Cuma
 
 -- ✅ CASE 1: GEÇERLİ — FLIGHT + 1 sonrası (1 → 2 → 3)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (1, 2, 'FLIGHT', '1,2,3,4,5'),
     (2, 3, 'UBER', '1,2,3,4,5');
 
 -- ❌ CASE 2: GEÇERSİZ — FLIGHT sonrası 2 transportation (4 → 5 → 6 → 7)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (4, 5, 'FLIGHT', '1,2,3,4,5'),
     (5, 6, 'BUS', '1,2,3,4,5'),
     (6, 7, 'SUBWAY', '1,2,3,4,5');
 
 -- ❌ CASE 3: GEÇERSİZ — 2 FLIGHT (8 → 9 → 10)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (8, 9, 'FLIGHT', '1,2,3'),
     (9, 10, 'FLIGHT', '1,2,3');
 
--- ✅ CASE 4: GEÇERLİ — FLIGHT yok, tek transportation (3 → 4)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+--  ❌ CASE 4: GEÇERSİZ — FLIGHT yok, tek transportation (3 → 4)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (3, 4, 'SUBWAY', '1,2,3,4,5,6,7');
 
 -- ❌ CASE 5: GEÇERSİZ — FLIGHT yok, 2 transportation (2 → 5 → 8)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (2, 5, 'UBER', '1,2,3,4,5'),
     (5, 8, 'BUS', '1,2,3,4,5');
 
 -- ❌ CASE 6: GEÇERSİZ — 4 transportation (1 → 6 → 5 → 4 → 9)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (1, 6, 'SUBWAY', '1,2,3,4,5'),
     (6, 5, 'BUS', '1,2,3,4,5'),
@@ -61,7 +61,7 @@ VALUES
     (4, 9, 'SUBWAY', '1,2,3,4,5');
 
 -- ✅ CASE 7: GEÇERLİ — FLIGHT tek başına (7 → 10)
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (7, 10, 'FLIGHT', '1,2,3,4,5,6,7');
 
@@ -69,7 +69,7 @@ VALUES
 -- Route: 10 → 9 → 8 (tek yön, FLIGHT + UBER)
 -- Ama sadece Pazar günü çalışıyor, Salı günü çağrılırsa çıkmaz.
 
-INSERT INTO transportation (origin_location_id, destination_location_id, type, active_days)
+INSERT INTO transportation (origin_location_id, destination_location_id, type, working_days)
 VALUES
     (10, 9, 'FLIGHT', '7'),  -- Marina Bay Sands → Burj Khalifa (sadece Pazar)
     (9, 8, 'UBER', '7');     -- Burj Khalifa → Colosseum (sadece Pazar)

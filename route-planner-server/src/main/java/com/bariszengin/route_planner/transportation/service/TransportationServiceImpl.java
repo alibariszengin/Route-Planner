@@ -11,7 +11,6 @@ import com.bariszengin.route_planner.transportation.dto.TransportationCreateDTO;
 import com.bariszengin.route_planner.transportation.dto.TransportationResponseDTO;
 import com.bariszengin.route_planner.transportation.dto.TransportationUpdateDTO;
 import com.bariszengin.route_planner.transportation.mapper.TransportationMapper;
-import com.bariszengin.route_planner.type.TransportationType;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +82,7 @@ public class TransportationServiceImpl implements TransportationService {
         RouteFinder routeFinder = new RouteFinder();
         List<TransportationResponseDTO> transportations = getTransportations();
         if (dayOfWeek != null) {
-            transportations = transportations.stream().filter(transportation -> transportation.isActiveOnDate(dayOfWeek)).toList();
+            transportations = transportations.stream().filter(transportation -> transportation.isWorkingOnGivenDay(dayOfWeek)).toList();
         }
 
         return routeFinder.findAllRoutes(origin, destination, transportations);

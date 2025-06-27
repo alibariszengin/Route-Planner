@@ -23,20 +23,20 @@ public class TransportationResponseDTO {
 
     private LocationResponseDTO destinationLocation;
 
-    private String activeDays;
+    private String workingDays;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
 
-    public List<Integer> getActiveDaysAsList() {
-        if (activeDays == null || activeDays.isBlank()) return Collections.emptyList();
-        return Arrays.stream(activeDays.split(","))
+    public List<Integer> getWorkingDaysAsList() {
+        if (workingDays == null || workingDays.isBlank()) return Collections.emptyList();
+        return Arrays.stream(workingDays.split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
     }
-    public boolean isActiveOnDate(int dayOfWeek) {
-        return getActiveDaysAsList().contains(dayOfWeek);
+    public boolean isWorkingOnGivenDay(int dayOfWeek) {
+        return getWorkingDaysAsList().contains(dayOfWeek);
     }
 }
