@@ -69,9 +69,10 @@ public class TransportationController {
     @GetMapping("/generateRoute")
     public ResponseEntity<List<RouteResponseDTO>> getRoutes(
             @RequestParam(name = "originLocation") Long originLocation,
-            @RequestParam(name = "destinationLocation") Long destinationLocation) {
+            @RequestParam(name = "destinationLocation") Long destinationLocation,
+            @RequestParam(name = "dayOfWeek", required = false) Integer dayOfWeek) {
         log.info("GET /api/v1/transportations/generateRoute - Generating routes");
-        List<RouteResponseDTO> response = transportationService.getRoutes(originLocation, destinationLocation);
+        List<RouteResponseDTO> response = transportationService.getRoutes(originLocation, destinationLocation, dayOfWeek);
         return ResponseEntity.ok(response);
     }
 }

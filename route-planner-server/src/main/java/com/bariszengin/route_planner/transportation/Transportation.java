@@ -50,6 +50,9 @@ public class Transportation {
     @JoinColumn(name = "destination_location_id", insertable = false, updatable = false)
     private Location destinationLocation;
 
+    @Column(name = "active_days")
+    private String activeDays;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -18,5 +18,5 @@ public interface TransportationService {
 
     TransportationResponseDTO getTransportation(Long id);
 
-    List<RouteResponseDTO> getRoutes(Long originId, Long destinationId);
+    List<RouteResponseDTO> getRoutes(Long originId, Long destinationId, Integer dayOfWeek);
 }
