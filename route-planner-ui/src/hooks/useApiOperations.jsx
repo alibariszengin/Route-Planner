@@ -1,7 +1,6 @@
 import { useState } from 'react';
+import { API_BASE_URL } from "../config.js";
 
-const SERVER_URL = 'http://localhost:8080';
-const BASE_URL = `${SERVER_URL}/api/v1`;
 export const useApiOperations = (metadata) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -13,7 +12,7 @@ export const useApiOperations = (metadata) => {
         try {
             const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
 
-            const response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`);
+            const response = await fetch(`${API_BASE_URL}/${metadata.endpoint}${requestParam}`);
 
             await checkResponse(response);
 
@@ -34,7 +33,7 @@ export const useApiOperations = (metadata) => {
             body: JSON.stringify(newElement)
         };
         const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
-        let response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
+        let response = await fetch(`${API_BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
 
         await checkResponse(response);
         let newCreated = await response.json();
@@ -49,7 +48,7 @@ export const useApiOperations = (metadata) => {
             body: JSON.stringify(elementToUpdate)
         };
         const requestParam = metadata.requestParams ? `?${metadata.requestParams}` : '';
-        let response = await fetch(`${BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
+        let response = await fetch(`${API_BASE_URL}/${metadata.endpoint}${requestParam}`, requestOptions);
 
         await checkResponse(response);
         let updatedElement = await response.json();
@@ -63,7 +62,7 @@ export const useApiOperations = (metadata) => {
             headers: {'Content-Type': 'application/json'},
         };
 
-        const response = await fetch(`${BASE_URL}/${metadata.endpoint}/${elementIdToDelete}`, requestOptions);
+        const response = await fetch(`${API_BASE_URL}/${metadata.endpoint}/${elementIdToDelete}`, requestOptions);
 
         await checkResponse(response);
 
